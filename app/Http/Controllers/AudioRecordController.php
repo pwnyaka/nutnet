@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AudioRecord;
+use App\Author;
 use App\Repositories\RecordRepository;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,10 @@ class AudioRecordController extends Controller
      */
     public function edit(AudioRecord $audioRecord)
     {
-        //
+        return view('admin.edit', [
+            'record' => $audioRecord,
+            'authors' =>Author::all()
+        ]);
     }
 
     /**
@@ -71,7 +75,16 @@ class AudioRecordController extends Controller
      */
     public function update(Request $request, AudioRecord $audioRecord)
     {
-        //
+        $data = $request->except('_token');
+        $this->validate($request, AudioRecord::rules($audioRecord));
+
+        $result = $audioRecord->fill($data)->save();
+
+        if ($result) {
+            return redirect()->route('audio')->with('success', 'Данные записи успешно изменены!');
+        } else {
+            return redirect()->route('audio')->with('error', 'При изменении данных произошла ошибка!');
+        }
     }
 
     /**
