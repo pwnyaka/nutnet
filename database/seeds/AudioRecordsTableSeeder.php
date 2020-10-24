@@ -23,9 +23,9 @@ class AudioRecordsTableSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             $data[] = [
-                'title' => $faker->text(20),
+                'title' => substr($faker->text(20), 0, -1),
                 'author_id' => rand(1, 10),
-                'release_year' => rand(1990, 2010),
+                'release_year' => rand(1990, date('Y')),
             ];
         }
         return $data;

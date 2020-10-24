@@ -19,6 +19,7 @@ class CreateAudioRecordsTable extends Migration
             $table->bigInteger('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->integer('release_year');
+            $table->string('image')->default('http://tanibata.ru/wp-content/uploads/2018/05/90437339.png');
             $table->timestamps();
         });
     }

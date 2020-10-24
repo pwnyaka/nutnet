@@ -34,7 +34,7 @@
                                 <tr>
                                     <th scope="row">{{ $key + 1 + $records->currentPage() * $records->perPage() - $records->perPage() }}
                                     </th>
-                                    <td>{{ $record->title }}</td>
+                                    <td><a href="{{ route('audio.show', $record) }}">{{ $record->title }}</a></td>
                                     <td>{{ $record->first_name }} {{ $record->last_name }}</td>
                                     <td>{{ $record->release_year }}</td>
                                     @if(Auth::user() !== null && Auth::user()->is_admin)

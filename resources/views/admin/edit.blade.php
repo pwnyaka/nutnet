@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Редактирование новости')
+@section('title')
+    @parent Редактирование записи
+@endsection
 
 @section ('menu')
     @include('menu')

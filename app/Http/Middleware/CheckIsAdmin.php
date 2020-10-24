@@ -17,7 +17,7 @@ class CheckIsAdmin
     public function handle($request, Closure $next)
     {
         if (!Auth::user()->is_admin) {
-            return redirect(route('Home'))->with('error', 'Доступ разрешен только администраторам!');
+            return redirect(route('home'))->with('error', 'Доступ разрешен только администраторам!');
         }
         return $next($request);
     }

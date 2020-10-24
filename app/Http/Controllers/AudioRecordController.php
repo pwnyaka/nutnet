@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AudioRecord;
 use App\Author;
 use App\Repositories\RecordRepository;
+use App\Track;
 use Illuminate\Http\Request;
 
 class AudioRecordController extends Controller
@@ -33,7 +34,7 @@ class AudioRecordController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,33 +45,39 @@ class AudioRecordController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AudioRecord  $audioRecord
+     * @param \App\AudioRecord $audioRecord
      * @return \Illuminate\Http\Response
      */
     public function show(AudioRecord $audioRecord)
     {
-        //
+        $author = Author::query()->find($audioRecord->author_id);
+        $tracks = Track::query()->where('audio_record_id', $audioRecord->id)->get();
+        return view('audio.show', [
+            'record' => $audioRecord,
+            'author' => $author,
+            'tracks' => $tracks
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AudioRecord  $audioRecord
+     * @param \App\AudioRecord $audioRecord
      * @return \Illuminate\Http\Response
      */
     public function edit(AudioRecord $audioRecord)
     {
         return view('admin.edit', [
             'record' => $audioRecord,
-            'authors' =>Author::all()
+            'authors' => Author::all()
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AudioRecord  $audioRecord
+     * @param \Illuminate\Http\Request $request
+     * @param \App\AudioRecord $audioRecord
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AudioRecord $audioRecord)
@@ -90,7 +97,7 @@ class AudioRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AudioRecord  $audioRecord
+     * @param \App\AudioRecord $audioRecord
      * @return \Illuminate\Http\Response
      */
     public function destroy(AudioRecord $audioRecord)
