@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/records', 'AudioRecordController@index')->name('audio')->middleware('auth');
+Route::get('/records/{audioRecord}', 'AudioRecordController@show')->name('audio.show')->middleware('auth');
+
+
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'Admin.',
+    'middleware' => ['auth', 'is_admin']
+], function () {
+    Route::resource('audioRecords', 'AudioRecordController')->except(['create', 'store', 'show']);
 });
